@@ -13,15 +13,8 @@ def main():
 	test = []
 	test.extend(data[-line_test:])
 	data = data[:len(data) - line_test]
+	k_nearest_neighbour(data, test)
 
-	positiv = []
-	negativ = []
-	devide_data(positiv, negativ, data)
-
-	for i in range(len(positiv)):
-		print(positiv[i])
-	for i in range(len(negativ)):
-		print(negativ[i])
 	
 def readfile(array):
 	global line_test
@@ -56,12 +49,14 @@ def normalization(array):
 		for j in range(len(array)):
 			array[j][i] = (array[j][i] - min) / (max - min) 
 
-def devide_data(pos, neg, array):
-	for i in range(len(array)):
-		if array[i][15] == 1:
-			pos.append(array[i])
-		else:
-			neg.append(array[i])
+def k_nearest_neighbour(data, test):
+	#list with all distances and classification
+
+	#sort list
+
+	#choose classification
+	#check if it's correctly clasified
+	pass
 
 if __name__ == '__main__':
 	main()
