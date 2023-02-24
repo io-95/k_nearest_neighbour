@@ -9,13 +9,19 @@ def main():
 	readfile(data)
 	normalization(data)
 	
+	#devide data in test and data
+	test = []
+	test.extend(data[-line_test:])
+	data = data[:len(data) - line_test]
 
+	
 
 
 def readfile(array):
 	global line_test
 	global line_data
 
+	#read data from file
 	with open('app1.data', newline='') as csvfile:
 		reader = csv.reader(csvfile, delimiter=',')
 		for row in reader:
@@ -23,13 +29,14 @@ def readfile(array):
 
 	line_data = len(array)
 
+	#read test data from file
 	with open('app1.test', newline='') as csvfile:
 		reader = csv.reader(csvfile, delimiter=',')
 		for row in reader:
 			array.append([float(num) for num in row])
 
 	line_test = len(array) - line_data
-	
+
 def normalization(array):
 	for i in range(len(array[0])):
 		min = math.inf
