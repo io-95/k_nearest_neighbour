@@ -1,10 +1,11 @@
 import csv
-
+import math
 
 def main():
 	data = []
 	readfile(data)
-
+	normalization(data)
+	print(data)
 
 
 def readfile(array):
@@ -18,8 +19,18 @@ def readfile(array):
 		for row in reader:
 			array.append([float(num) for num in row])
 
-def normalization():
-	pass
+def normalization(array):
+	for i in range(len(array[0])):
+		min = math.inf
+		max = -1
+		for j in range(len(array)):
+			if array[j][i] > max:
+				max = array[j][i]
+			if array[j][i] < min:
+				min = array[j][i]
+		
+		for j in range(len(array)):
+			array[j][i] = (array[j][i] - min) / (max - min) 
 
 if __name__ == '__main__':
 	main()
