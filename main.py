@@ -1,5 +1,7 @@
 import csv
 import math
+import matplotlib.pyplot as plt
+
 
 line_test = 0
 line_data = 0
@@ -13,7 +15,23 @@ def main():
 	test = []
 	test.extend(data[-line_test:])
 	data = data[:len(data) - line_test]
-	k_nearest_neighbour(data, test)
+	
+	false_rates = []
+	for i in range(len(data)):
+		false_rates.append(k_nearest_neighbour(data, test, i))
+		
+	show_result(false_rates)
+	
+def show_result(data):
+	print("Optimal k is: ", data.index(min(data)))
+	
+	plt.scatter(range(len(data)), data)
+
+	plt.xlabel('K')
+	plt.ylabel('Falserate')
+	plt.title('Falserate')
+
+	plt.show()
 
 	
 def readfile(array):
@@ -49,7 +67,7 @@ def normalization(array):
 		for j in range(len(array)):
 			array[j][i] = (array[j][i] - min) / (max - min) 
 
-def k_nearest_neighbour(data, test):
+def k_nearest_neighbour(data, test, k):
 	correct = 0
 	false = 0
 	
@@ -60,14 +78,30 @@ def k_nearest_neighbour(data, test):
 				manhatten_distance(data[j], test[i]),
 				data[j][15]
 				])
+
+		classification = -1
+		count_pos = 0
+		count_neg = 0	
 		dist_list.sort()
-		if dist_list[0][1] == test[i][15]:
+
+		#count classification of the neighbours
+		for l in range(k+1):
+			if dist_list[l][1] == 0:
+				count_neg += 1
+			else:
+				count_pos += 1
+
+		if count_pos > count_neg:
+			classification = 1
+		else:
+			classification = 0
+
+		if classification == test[i][15]:
 			correct += 1
 		else:
 			false += 1
 
-	print("correct: ", correct)
-	print("false: ", false)
+	return false
 
 def manhatten_distance(pointA, pointB):
 	dist = 0
@@ -75,6 +109,7 @@ def manhatten_distance(pointA, pointB):
 		sum = pointA[i] - pointB[i]
 		sum = abs(sum)
 		dist += sum
+	return dist
 
 if __name__ == '__main__':
 	main()
