@@ -50,13 +50,31 @@ def normalization(array):
 			array[j][i] = (array[j][i] - min) / (max - min) 
 
 def k_nearest_neighbour(data, test):
-	#list with all distances and classification
+	correct = 0
+	false = 0
+	
+	for i in range(len(test)):
+		dist_list = []
+		for j in range(len(data)):
+			dist_list.append([
+				manhatten_distance(data[j], test[i]),
+				data[j][15]
+				])
+		dist_list.sort()
+		if dist_list[0][1] == test[i][15]:
+			correct += 1
+		else:
+			false += 1
 
-	#sort list
+	print("correct: ", correct)
+	print("false: ", false)
 
-	#choose classification
-	#check if it's correctly clasified
-	pass
+def manhatten_distance(pointA, pointB):
+	dist = 0
+	for i in range(len(pointA) - 1):
+		sum = pointA[i] - pointB[i]
+		sum = abs(sum)
+		dist += sum
 
 if __name__ == '__main__':
 	main()
